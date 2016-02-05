@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <title>Spacebook</title>
+        <script src="https://cdn.jsdelivr.net/bluebird/3.1.1/bluebird.js">Promise.longStackTraces()</script>
+        <script src="balloon.js"></script>
+        <script src="lib.js"></script>
+        <script src="spacebook.js"></script>
+        <style>
+            body {
+                background: url('starfield.gif');
+                color: white;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Spacebook</h1>
+        <p id="message">Enter your password</p>
+        <p><form action="javascript:void(0);" onsubmit="passwordEntered()">
+            <input type="password" id="password" />
+            <input type="submit" value="Show me my picture!"/>
+        </form></p>
+        <p>Password hint: I love ______graphy (six letters)</p>
+        <div id="photos"></div>
+    </body>
+</html>

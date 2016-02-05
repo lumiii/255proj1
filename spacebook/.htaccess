@@ -1,0 +1,3 @@
+AuthType WebAuth
+require user dabo
+
