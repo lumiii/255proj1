@@ -31,17 +31,17 @@ var merkle_tree = ['8e86c8a733ce58e68e01a24a271f961346a4437584eec89f39bb0f3246b7
 var balloonHashKeyLength = 256;
 var merkle_height = 3;
 
-function verifyMerkle(data) {
-    return verifyMerkleLevel(data, 0);
+function verifyMerkle(data1) {
+    return verifyMerkleLevel(data1, 0);
 }
 
-function verifyMerkleLevel(data, level) {
+function verifyMerkleLevel(data1, level) {
     if (level === 3) {
-        var hexHash = lib.arrayBufferToHex(data);
+        var hexHash = lib.arrayBufferToHex(data1);
         return (hexHash === merkle_root);
     }
     else {
-        return lib.sha256Hash(data).then(function(dataHash) {
+        return lib.sha256Hash(data1).then(function(dataHash) {
             return computeMerklePair(dataHash, merkle_tree[level]).then(function(pairHash) {
                 return verifyMerkleLevel(pairHash, level + 1);
             });
@@ -61,8 +61,8 @@ function decryptData(password) {
         var balloonKey = balloonHash.slice(0, balloonHashKeyLength);
 
         lib.importKey(balloonKey.buffer).then(function (cryptoKey) {
-            lib.decrypt(cryptoKey, data, iv).then(function (data) {
-                displayImage(data);
+            lib.decrypt(cryptoKey, data, iv).then(function (imgData) {
+                displayImage(imgData);
             });
         });
     });
