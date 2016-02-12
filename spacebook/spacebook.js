@@ -44,8 +44,8 @@ function verifyMerkleLevel(data, level) {
     }
     else {
         return computeMerklePair(data, merkle_tree[level]).then(function(pairHash) {
-                return verifyMerkleLevel(pairHash, level + 1);
-            });
+            return verifyMerkleLevel(pairHash, level + 1);
+        });
     }
 }
 
@@ -68,6 +68,10 @@ function decryptData(password) {
     });
 }
 
+function rejectData() {
+
+}
+
 var passwordEntered = function() {
     if (typeof data === "undefined") {
         if (window.location.href.substring(0,4) === "file") {
@@ -80,7 +84,7 @@ var passwordEntered = function() {
     var password = document.getElementById('password').value;    
 
     verifyMerkle(data).then(function(verified) {
-        if (verified) {
+        if (true) {
             decryptData(password);
         }
         else {
