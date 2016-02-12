@@ -62,7 +62,6 @@ function decryptData(password) {
         lib.importKey(balloonKey.buffer).then(function (cryptoKey) {
             lib.decrypt(cryptoKey, data, iv).then(function (data) {
                     displayImage(data);
-                });
             });
         });
     });
@@ -87,20 +86,6 @@ var passwordEntered = function() {
             rejectData();
         }
     });
-
-    /* Your implementation will make heavy use of Promises. 
-     * Here is an example use of Promises:
-     * 
-     *     returnFour.then(function (i) {
-     *         addFive(i).then(function(out) {
-     *             console.log(out);
-     *         });
-     *     });
-     *
-     * Assuming that returnFour and addFive return Promises,
-     * and otherwise work as their names suggest,
-     * the number 9 should be printed to the console.
-     */
 };
 
 /* Loads the encrypted data */
