@@ -28,6 +28,46 @@ var merkle_tree = ['8e86c8a733ce58e68e01a24a271f961346a4437584eec89f39bb0f3246b7
         '5f08975093846d9f49e8bb7808672305b8e7824f410075f2a36b2c8acc072d12',
         '73ad4bcfc747f04d8d92d5ba3c9b0e7d678775b2df618bff0a2f700b20673cb5'];
 
+var balloonHashKeyLength = 256;
+var merkle_height = 3;
+
+function verifyMerkle(data) {
+    return verifyMerkleLevel(data, 0);
+}
+
+function verifyMerkleLevel(data, level) {
+    if (level === 3) {
+        return (data === merkle_root);
+    }
+    else {
+        return lib.sha256Hash(data).then(function(dataHash) {
+            return computeMerklePair(dataHash, lib.hexToArrayBuffer(merkle_tree[level])).then(function(pairHash) {
+                return verifyMerkleLevel(pairHash, level + 1);
+            });
+        });
+    }
+}
+
+function computeMerklePair(data1, strData2){
+    var hexPair = lib.arrayBufferToHex(data1) + strData2;
+    var arrayPair = lib.hexToArrayBuffer(hexPair);
+
+    return lib.sha256Hash(arrayPair);
+}
+
+function decryptData(password) {
+    lib.balloonHash(password, salt).then(function (balloonHash) {
+        var balloonKey = balloonHash.slice(0, balloonHashKeyLength);
+
+        lib.importKey(balloonKey.buffer).then(function (cryptoKey) {
+            lib.decrypt(cryptoKey, data, iv).then(function (data) {
+                    displayImage(data);
+                });
+            });
+        });
+    });
+}
+
 var passwordEntered = function() {
     if (typeof data === "undefined") {
         if (window.location.href.substring(0,4) === "file") {
@@ -36,9 +76,17 @@ var passwordEntered = function() {
         }
         throw("Not ready!");
     }
-    var password = document.getElementById('password').value;
 
-    /* TODO: your implementation here! */
+    var password = document.getElementById('password').value;    
+
+    verifyMerkle(data).then(function(verified) {
+        if (verified) {
+            decryptData(password);
+        }
+        else {
+            rejectData();
+        }
+    });
 
     /* Your implementation will make heavy use of Promises. 
      * Here is an example use of Promises:
