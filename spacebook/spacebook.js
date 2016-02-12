@@ -28,7 +28,7 @@ var merkle_tree = ['8e86c8a733ce58e68e01a24a271f961346a4437584eec89f39bb0f3246b7
         '5f08975093846d9f49e8bb7808672305b8e7824f410075f2a36b2c8acc072d12',
         '73ad4bcfc747f04d8d92d5ba3c9b0e7d678775b2df618bff0a2f700b20673cb5'];
 
-var balloonHashKeyLength = 256;
+var balloonHashKeyLength = 32;
 var merkle_height = 3;
 
 function verifyMerkle(data) {
