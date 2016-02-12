@@ -31,21 +31,21 @@ var merkle_tree = ['8e86c8a733ce58e68e01a24a271f961346a4437584eec89f39bb0f3246b7
 var balloonHashKeyLength = 256;
 var merkle_height = 3;
 
-function verifyMerkle(data1) {
-    return verifyMerkleLevel(data1, 0);
+function verifyMerkle(data) {
+    return lib.sha256Hash(data).then(function(dataHash) {
+        return verifyMerkleLevel(data, 0);    
+    });
 }
 
-function verifyMerkleLevel(data1, level) {
+function verifyMerkleLevel(data, level) {
     if (level === 3) {
-        var hexHash = lib.arrayBufferToHex(data1);
+        var hexHash = lib.arrayBufferToHex(data);
         return (hexHash === merkle_root);
     }
     else {
-        return lib.sha256Hash(data1).then(function(dataHash) {
-            return computeMerklePair(dataHash, merkle_tree[level]).then(function(pairHash) {
+        return computeMerklePair(data, merkle_tree[level]).then(function(pairHash) {
                 return verifyMerkleLevel(pairHash, level + 1);
             });
-        });
     }
 }
 
