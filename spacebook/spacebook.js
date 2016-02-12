@@ -61,7 +61,7 @@ function decryptData(password) {
 
         lib.importKey(balloonKey.buffer).then(function (cryptoKey) {
             lib.decrypt(cryptoKey, data, iv).then(function (data) {
-                    displayImage(data);
+                displayImage(data);
             });
         });
     });
