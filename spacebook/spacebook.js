@@ -33,7 +33,7 @@ var merkle_height = 3;
 
 function verifyMerkle(data) {
     return lib.sha256Hash(data).then(function(dataHash) {
-        return verifyMerkleLevel(data, 0);    
+        return verifyMerkleLevel(dataHash, 0);    
     });
 }
 
