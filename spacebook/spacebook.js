@@ -41,7 +41,7 @@ function verifyMerkleLevel(data, level) {
     }
     else {
         return lib.sha256Hash(data).then(function(dataHash) {
-            return computeMerklePair(dataHash, lib.hexToArrayBuffer(merkle_tree[level])).then(function(pairHash) {
+            return computeMerklePair(dataHash, merkle_tree[level]).then(function(pairHash) {
                 return verifyMerkleLevel(pairHash, level + 1);
             });
         });
