@@ -37,7 +37,8 @@ function verifyMerkle(data) {
 
 function verifyMerkleLevel(data, level) {
     if (level === 3) {
-        return (data === merkle_root);
+        var hexHash = lib.arrayBufferToHex(data);
+        return (hexHash === merkle_root);
     }
     else {
         return lib.sha256Hash(data).then(function(dataHash) {
