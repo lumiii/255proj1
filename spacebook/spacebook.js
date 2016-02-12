@@ -63,13 +63,21 @@ function decryptData(password) {
         lib.importKey(balloonKey.buffer).then(function (cryptoKey) {
             lib.decrypt(cryptoKey, data, iv).then(function (imgData) {
                 displayImage(imgData);
+            }).catch(function (e) {
+                decryptionFail();
             });
         });
     });
 }
 
-function rejectData() {
+function decryptionFail() {
+    console.warn("Decryption failed");
+    statusBanner.textContent = "Decryption failed - do you have the right password?";
+}
 
+function rejectData() {
+    console.warn("Data integrity check failed");
+    statusBanner.textContent = "Data integrity check failed";
 }
 
 var passwordEntered = function() {
@@ -80,6 +88,8 @@ var passwordEntered = function() {
         }
         throw("Not ready!");
     }
+
+    statusBanner.textContent = "";
 
     var password = document.getElementById('password').value;    
 
@@ -92,6 +102,9 @@ var passwordEntered = function() {
         }
     });
 };
+
+var statusBanner = document.createElement("h1");
+document.body.appendChild(statusBanner);
 
 /* Loads the encrypted data */
 var data;
